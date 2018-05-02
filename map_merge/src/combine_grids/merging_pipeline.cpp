@@ -139,14 +139,14 @@ bool MergingPipeline::estimateTransforms(FeatureType feature_type,
 }
 
 // checks whether given matrix is an identity, i.e. exactly appropriate Mat::eye
-static inline bool isIdentity(const cv::Mat& matrix)
+/*static inline bool isIdentity(const cv::Mat& matrix)
 {
   if (matrix.empty()) {
     return false;
   }
   cv::MatExpr diff = matrix != cv::Mat::eye(matrix.size(), matrix.type());
   return cv::countNonZero(diff) == 0;
-}
+}*/
 
 nav_msgs::OccupancyGrid::Ptr MergingPipeline::composeGrids()
 {
@@ -184,17 +184,17 @@ nav_msgs::OccupancyGrid::Ptr MergingPipeline::composeGrids()
   // set correct resolution to output grid
   for (size_t i = 0; i < transforms_.size(); ++i) {
     // check if this transform is the reference frame
-    if (isIdentity(transforms_[i])) {
+    if (/*isIdentity(transforms_[i])*/grids_[i]) {
       result->info.resolution = grids_[i]->info.resolution;
       break;
     }
   }
   // set grid origin to its centre
-  result->info.origin.position.x =
+  /*result->info.origin.position.x =
       -(result->info.width / 2.0) * double(result->info.resolution);
   result->info.origin.position.y =
       -(result->info.height / 2.0) * double(result->info.resolution);
-  result->info.origin.orientation.w = 1.0;
+  result->info.origin.orientation.w = 1.0;*/
 
   return result;
 }
